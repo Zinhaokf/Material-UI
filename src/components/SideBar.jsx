@@ -10,8 +10,11 @@ import {
   Link,
   TextField,
   InputAdornment,
+  IconButton,
+  Tooltip
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 
 const contacts = [
   { name: "John Doe", username: "@johndoe", avatar: "https://mui.com/static/images/avatar/1.jpg" },
@@ -30,114 +33,92 @@ function Sidebar() {
   );
 
   return (
-    <>
+    <Box sx={{ position: "fixed", width: "360px", padding: "16px" }}>
+      {/* Thanh tìm kiếm */}
+      <TextField
+        placeholder="Tìm kiếm"
+        variant="outlined"
+        fullWidth
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon sx={{ color: "#9e9e9e" }} />
+            </InputAdornment>
+          ),
+        }}
+        sx={{
+          marginBottom: "16px",
+          backgroundColor: "#1f2229",
+          borderRadius: "25px",
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "25px",
+            "& fieldset": { border: "none" },
+            color: "#fff",
+          },
+          "& input": { color: "#fff" },
+        }}
+      />
+
+      {/* Danh sách liên hệ */}
       <Box
         sx={{
-          position: "fixed",
-          width: "360px",
+          backgroundColor: "#1f2229",
+          borderRadius: "16px",
+          padding: "16px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
         }}
       >
-        {/* Thanh tìm kiếm */}
-        <TextField
-          placeholder="Tìm kiếm"
-          variant="outlined"
-          fullWidth
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ color: "#808080" }} />
-                </InputAdornment>
-              ),
-            },
-          }}
-          sx={{
-            marginBottom: "16px",
-            "& .MuiOutlinedInput-root": {
-              backgroundColor: "#16181c",
-              color: "#f5f5f5",
-              borderRadius: "25px",
-              "& fieldset": { border: "none" },
-            },
-            "& .MuiInputBase-input": { color: "#f5f5f5" },
-            "& .MuiOutlinedInput-notchedOutline": { borderColor: "#808080" },
-          }}
-        />
+        <Typography variant="h6" sx={{ color: "#fff", fontWeight: 600, marginBottom: "12px" }}>
+          Người liên hệ gần đây
+        </Typography>
 
-        {/* Tạo khoảng cách 30px */}
-        <Box sx={{ height: "20px" }} />
-
-        <Box
-          sx={{
-            backgroundColor: "#16181c",
-            borderRadius: "25px",
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-            padding: "16px",
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            marginBottom: "150px",
-          }}
-        >
-          {/* Danh sách người liên hệ gần đây */}
-          <Box>
-            <Typography
-              variant="h6"
+        <List>
+          {filteredContacts.map((contact, index) => (
+            <ListItem
+              key={index}
               sx={{
-                fontWeight: "bold",
-                marginBottom: "8px",
-                color: "#f5f5f5",
+                "&:hover": {
+                  backgroundColor: "#2a2d35",
+                  borderRadius: "12px",
+                },
+                paddingY: "8px",
               }}
+              secondaryAction={
+                <Tooltip title="Follow">
+                  <IconButton edge="end" sx={{ color: "#6ec207" }}>
+                    <PersonAddAlt1Icon />
+                  </IconButton>
+                </Tooltip>
+              }
             >
-              Người liên hệ gần đây
-            </Typography>
-            <List>
-              {filteredContacts.map((contact, index) => (
-                <ListItem key={index} sx={{ padding: "8px 0" }}>
-                  <ListItemAvatar>
-                    <Avatar alt={contact.name} src={contact.avatar} />
-                  </ListItemAvatar>
-                  <ListItemText
-                    sx={{
-                      "& .MuiTypography-root": {
-                        color: "#f5f5f5",
-                      },
-                    }}
-                    primary={contact.name}
-                    secondary={contact.username}
-                  />
-                </ListItem>
-              ))}
-            </List>
-            {filteredContacts.length === 0 && (
-              <Typography
-                sx={{
-                  color: "#808080",
-                  textAlign: "center",
-                  marginTop: "16px",
-                }}
-              >
-                Không tìm thấy kết quả
-              </Typography>
-            )}
-            <Box sx={{ marginTop: "8px" }}>
-              <Link
-                href="#"
-                sx={{
-                  color: "#6ec207",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                }}
-              >
-                <Typography>Xem thêm</Typography>
-              </Link>
-            </Box>
-          </Box>
+              <ListItemAvatar>
+                <Avatar alt={contact.name} src={contact.avatar} />
+              </ListItemAvatar>
+              <ListItemText
+                primary={contact.name}
+                secondary={contact.username}
+                primaryTypographyProps={{ color: "#fff" }}
+                secondaryTypographyProps={{ color: "#aaa" }}
+              />
+            </ListItem>
+          ))}
+        </List>
+
+        {filteredContacts.length === 0 && (
+          <Typography color="gray" textAlign="center" mt={2}>
+            Không tìm thấy kết quả
+          </Typography>
+        )}
+
+        <Box mt={2} textAlign="right">
+          <Link href="#" sx={{ color: "#6ec207", fontWeight: "bold" }}>
+            Xem thêm
+          </Link>
         </Box>
       </Box>
-    </>
+    </Box>
   );
 }
 

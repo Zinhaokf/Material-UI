@@ -4,98 +4,83 @@ import {
   Toolbar,
   Typography,
   Box,
-  Tab,
-  Tabs,
   IconButton,
   Avatar,
+  Button,
+  InputBase,
   Badge
 } from '@mui/material';
 import {
-  Bolt as BoltIcon,
+  Search as SearchIcon,
   Home as HomeIcon,
   Person as PersonIcon,
   Email as EmailIcon,
-  Notifications as NotificationsIcon
+  Notifications as NotificationsIcon,
+  Bolt as BoltIcon // ✅ Fix import này
 } from '@mui/icons-material';
 
 const Navbar = () => {
-  const [activeTab, setActiveTab] = useState(0);
-
-  const handleTabChange = (_event, newValue) => {
-    setActiveTab(newValue);
-  };
+  const [active, setActive] = useState('home');
 
   return (
     <AppBar
       position="fixed"
       sx={{
-        bgcolor: '#16181c',
-        minHeight: 60,
-        borderRadius: 0 // Remove corner rounding
+        bgcolor: '#0d1117',
+        paddingY: 1,
+        boxShadow: '0 2px 10px rgba(0,0,0,0.3)'
       }}
     >
-      <Toolbar sx={{ justifyContent: 'space-between' }}>
-        {/* Logo Section */}
-        <Box component="img" src='src/assets/Logo.svg'/>
-
-        {/* Navigation Tabs Section */}
-        <Tabs
-          value={activeTab}
-          onChange={handleTabChange}
-          sx={{
-            '& .MuiTabs-indicator': {
-              backgroundColor: '#6ec207',
-              height: 3,
-              borderRadius: '4px'
-            },
-            maxWidth: '100%',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            paddingLeft: '100px'
-          }}
-        >
-          <Tab
-            icon={<HomeIcon />}
-            sx={{
-              color: activeTab === 0 ? '#fff' : '#aaa',
-              '&.Mui-selected': { color: '#6ec207' },
-              minWidth: 100
-            }}
-          />
-          <Tab
-            icon={<PersonIcon />}
-            sx={{
-              color: activeTab === 1 ? '#fff' : '#aaa',
-              '&.Mui-selected': { color: '#6ec207' },
-              minWidth: 100
-            }}
-          />
-          <Tab
-            icon={<EmailIcon />}
-            sx={{
-              color: activeTab === 2 ? '#fff' : '#aaa',
-              '&.Mui-selected': { color: '#6ec207' },
-              minWidth: 100
-            }}
-          />
-          <Tab
-            icon={<NotificationsIcon />}
-            sx={{
-              color: activeTab === 2 ? '#fff' : '#aaa',
-              '&.Mui-selected': { color: '#6ec207' },
-              minWidth: 100
-            }}
-          />
-        </Tabs>
-
-        {/* Profile Section */}
+      <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+        {/* Logo */}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
-            <Typography variant="body1" sx={{ mr: 1, display: { xs: 'none', sm: 'block' } }}>
-              Diogo Forlan
-            </Typography>
-            <Avatar alt="Diogo Forlan" src="/avatar.jpg" />
-          </Box>
+          <BoltIcon sx={{ color: '#6ec207', mr: 1 }} />
+          <Typography variant="h6" sx={{ color: '#fff', fontWeight: 'bold' }}>
+            SocialX
+          </Typography>
+        </Box>
+
+        {/* Navigation Buttons */}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button
+            startIcon={<HomeIcon />}
+            variant={active === 'home' ? 'contained' : 'text'}
+            onClick={() => setActive('home')}
+            sx={{
+              color: active === 'home' ? '#000' : '#fff',
+              bgcolor: active === 'home' ? '#6ec207' : 'transparent',
+              '&:hover': { bgcolor: '#6ec207', color: '#000' }
+            }}
+          >
+            Home
+          </Button>
+          <Button
+            startIcon={<PersonIcon />}
+            variant={active === 'profile' ? 'contained' : 'text'}
+            onClick={() => setActive('profile')}
+            sx={{
+              color: active === 'profile' ? '#000' : '#fff',
+              bgcolor: active === 'profile' ? '#6ec207' : 'transparent',
+              '&:hover': { bgcolor: '#6ec207', color: '#000' }
+            }}
+          >
+            Profile
+          </Button>
+          <IconButton sx={{ color: '#fff' }}>
+            <Badge color="error" variant="dot">
+              <EmailIcon />
+            </Badge>
+          </IconButton>
+          <IconButton sx={{ color: '#fff' }}>
+            <Badge color="error" variant="dot">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+        </Box>
+
+        {/* Search + Avatar */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Avatar alt="User Avatar" src="/avatar.jpg" />
         </Box>
       </Toolbar>
     </AppBar>

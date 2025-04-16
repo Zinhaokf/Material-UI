@@ -1,127 +1,119 @@
 import React, { useState } from "react";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+import {
+  Card,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Avatar,
+  IconButton,
+  Typography,
+  Box,
+} from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
-import { Box } from "@mui/material";
 
 export default function Post({ caption, img, like, comment, view, share }) {
   const [likes, setLikes] = useState(like);
   const [isLiked, setIsLiked] = useState(false);
 
   const handleLike = () => {
-    if (isLiked) {
-      setLikes((prevLikes) => prevLikes - 1);
-    } else {
-      setLikes((prevLikes) => prevLikes + 1);
-    }
+    setLikes((prev) => (isLiked ? prev - 1 : prev + 1));
     setIsLiked(!isLiked);
   };
 
   return (
-    <Card sx={{ maxWidth: "100%", bgcolor: "#16181C", borderRadius: "25px" }}>
+    <Card
+      sx={{
+        maxWidth: "100%",
+        bgcolor: "#0f1217",
+        borderRadius: "25px",
+        paddingBottom: 1,
+        boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+        mb: 3,
+      }}
+    >
       <CardHeader
         avatar={
           <Avatar
-            src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="User Avatar"
+            src="https://images.unsplash.com/photo-1527980965255-d3b416303d12"
+            alt="User"
+            sx={{ width: 48, height: 48 }}
           />
         }
         action={
           <IconButton aria-label="settings">
-            <MoreHorizIcon sx={{ color: "#f5f5f5" }} />
+            <MoreHorizIcon sx={{ color: "#aaa" }} />
           </IconButton>
         }
         title={
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <Typography
-              variant="body1"
-              color="#f5f5f5"
-              sx={{ fontWeight: 600 }}
-            >
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography sx={{ color: "#f5f5f5", fontWeight: "bold" }}>
               Diogo Forlan
             </Typography>
-            <Typography variant="body1" color="#808080">
+            <Typography sx={{ fontSize: 12, color: "#777" }}>
               9 giờ trước
             </Typography>
           </Box>
         }
       />
-      <Box sx={{ paddingLeft: "56px" }}>
-        <CardContent sx={{ paddingTop: 0 }}>
-          <Typography
-            variant="body2"
-            sx={{ maxWidth: "480px", color: "#f5f5f5" }}
-          >
-            {caption}
-          </Typography>
-        </CardContent>
-        <Box sx={{ padding: "0 16px" }}>
-          <CardMedia
-            component="img"
-            height="auto"
-            image={img}
-            alt="Paella dish"
-            sx={{ borderRadius: "25px" }}
-          />
-        </Box>
-        <CardActions disableSpacing sx={{ display: "flex", gap: "60px" }}>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton aria-label="add to favorites" onClick={handleLike}>
-              {isLiked ? (
-                <FavoriteIcon
-                  sx={{ fontSize: "20px", color: "#FF0000" }}
-                />
-              ) : (
-                <FavoriteBorderOutlinedIcon
-                  sx={{ fontSize: "20px", color: "#808080" }}
-                />
-              )}
-            </IconButton>
-            <Typography variant="body2" color="#808080">
-              {likes}K
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton aria-label="comment">
-              <ChatBubbleOutlineOutlinedIcon
-                sx={{ fontSize: "20px", color: "#808080" }}
-              />
-            </IconButton>
-            <Typography variant="body2" color="#808080">
-              {comment}K
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton aria-label="trending view">
-              <TrendingUpOutlinedIcon
-                sx={{ fontSize: "20px", color: "#808080" }}
-              />
-            </IconButton>
-            <Typography variant="body2" color="#808080">
-              {view}M
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton aria-label="share">
-              <ShareOutlinedIcon sx={{ fontSize: "20px", color: "#808080" }} />
-            </IconButton>
-            <Typography variant="body2" color="#808080">
-              {share}K
-            </Typography>
-          </Box>
-        </CardActions>
+
+      <CardContent sx={{ pt: 0, pl: 7, pr: 2 }}>
+        <Typography sx={{ color: "#e0e0e0", fontSize: 15 }}>{caption}</Typography>
+      </CardContent>
+
+      <Box sx={{ px: 2 }}>
+        <CardMedia
+          component="img"
+          height="auto"
+          image={img}
+          alt="Post Image"
+          sx={{
+            borderRadius: "20px",
+            mt: 1,
+            maxHeight: 500,
+            objectFit: "cover",
+          }}
+        />
       </Box>
+
+      <CardActions sx={{ pl: 7, pt: 2, gap: 4 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+          <IconButton onClick={handleLike}>
+            {isLiked ? (
+              <FavoriteIcon sx={{ color: "#FF3D00" }} />
+            ) : (
+              <FavoriteBorderOutlinedIcon sx={{ color: "#bbb" }} />
+            )}
+          </IconButton>
+          <Typography color="#bbb">{likes}K</Typography>
+        </Box>
+
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+          <IconButton>
+            <ChatBubbleOutlineOutlinedIcon sx={{ color: "#bbb" }} />
+          </IconButton>
+          <Typography color="#bbb">{comment}K</Typography>
+        </Box>
+
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+          <IconButton>
+            <TrendingUpOutlinedIcon sx={{ color: "#bbb" }} />
+          </IconButton>
+          <Typography color="#bbb">{view}M</Typography>
+        </Box>
+
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+          <IconButton>
+            <ShareOutlinedIcon sx={{ color: "#bbb" }} />
+          </IconButton>
+          <Typography color="#bbb">{share}K</Typography>
+        </Box>
+      </CardActions>
     </Card>
   );
 }
